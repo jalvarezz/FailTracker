@@ -21,7 +21,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Subject" Type="String" Nullable="false" />
-          <Property Name="CreatedAt" Type="DateTime" Nullable="false" DefaultValue="(None)" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

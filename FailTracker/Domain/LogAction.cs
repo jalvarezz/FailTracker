@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace FailTracker.Domain
 {
-    public class LogAction : IA
+    public class LogAction
     {
         public int LogActionID { get; set; }
         public DateTime PerformedAt { get; set; }
