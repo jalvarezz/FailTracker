@@ -13,7 +13,6 @@ namespace FailTracker.Data
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
-            
         }
 
         protected override void Dispose(bool disposing)
@@ -22,5 +21,6 @@ namespace FailTracker.Data
         }
 
         public DbSet<LogAction> Logs { get; set; }
+        public DbSet<Issue> Issues { get; set; }
     }
 }
