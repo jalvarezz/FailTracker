@@ -9,16 +9,20 @@ using System.Web.Mvc;
 using FailTracker.Data;
 using Microsoft.AspNet.Identity;
 using FailTracker.Domain;
+using FailTracker.Filters;
+using FailTracker.Infrastructure;
 
 namespace FailTracker.Controllers
 {
     public class IssueController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICurrentUser _currentUser;
 
-        public IssueController(ApplicationDbContext context)
+        public IssueController(ApplicationDbContext context, ICurrentUser currentUser)
         {
             _context = context;
+            _currentUser = currentUser;
         }
 
         // GET: /Issue/
@@ -28,6 +32,7 @@ namespace FailTracker.Controllers
         }
 
         // GET: /Issue/Details/5
+        [Log("Viewed issue {id}")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,13 +44,6 @@ namespace FailTracker.Controllers
             {
                 return HttpNotFound();
             }
-
-            var userId = User.Identity.GetUserId();
-            var user = _context.Users.Find(userId);
-
-            _context.Logs.Add(new LogAction(user, "Details", "Issue", "Viewed issue " + id.Value.ToString()));
-
-            _context.SaveChanges();
 
             return View(issue);
         }
@@ -60,16 +58,12 @@ namespace FailTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Log("Created issue")]
         public ActionResult Create([Bind(Include="Id,Subject,Body")] Issue issue)
         {
             if (ModelState.IsValid)
             {
-                var userId = User.Identity.GetUserId();
-                var user = _context.Users.Find(userId);
-
-                _context.Issues.Add(new Issue(user, issue.Subject, issue.Body));
-                _context.Logs.Add(new LogAction(user, "New", "Issue", "Created issue"));
+                _context.Issues.Add(new Issue(_currentUser.User, issue.Subject, issue.Body));
 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -97,7 +91,7 @@ namespace FailTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Log("Edited issue")]
         public ActionResult Edit([Bind(Include = "Id,Subject,Body")] Issue issue)
         {
             if (ModelState.IsValid)
@@ -125,17 +119,12 @@ namespace FailTracker.Controllers
                 return HttpNotFound();
             }
 
-            var userId = User.Identity.GetUserId();
-            var user = _context.Users.Find(userId);
-
-            _context.Logs.Add(new LogAction(user, "Delete", "Issue", "Deleted issue " + id.Value.ToString()));
-
             return View(issue);
         }
 
         // POST: /Issue/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Log("Deleted issue {id}")]
         public ActionResult DeleteConfirmed(int id)
         {
             Issue issue = _context.Issues.Find(id);

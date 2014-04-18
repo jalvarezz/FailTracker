@@ -17,8 +17,10 @@ namespace FailTracker.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+        private readonly ApplicationDbContext _context;
+
+        public AccountController(ApplicationDbContext context)
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context)))
         {
         }
 
