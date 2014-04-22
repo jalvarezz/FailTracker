@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FailTracker.Models.AssignmentStatsViewModel>
+
+<h3>Issues Assigned By You</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enhancements)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bugs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Support)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Other)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Enhancements)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bugs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Support)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Other)
+        </td>
+    </tr>
+}
+
+</table>

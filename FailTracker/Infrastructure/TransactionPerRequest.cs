@@ -19,17 +19,17 @@ namespace FailTracker.Infrastructure
             _httpContext = httpContext;
         }
 
-        public void IRunOnEachRequest.Execute()
+        void IRunOnEachRequest.Execute()
         {
             _httpContext.Items["_Transaction"] = _context.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
         }
 
-        public void IRunOnError.Execute()
+        void IRunOnError.Execute()
         {
             _httpContext.Items["_Error"] = true;
         }
 
-        public void IRunAfterEachRequest.Execute()
+        void IRunAfterEachRequest.Execute()
         {
             var transaction = (DbContextTransaction)_httpContext.Items["_Transaction"];
 

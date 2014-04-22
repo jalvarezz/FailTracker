@@ -28,13 +28,13 @@ namespace FailTracker.App_Start
                 _context.SaveChanges();
             }
 
-            if (_context.Issues.Any())
+            if (_context.Issues.Count() == 0)
             {
                 var user = _context.Users.First();
 
-                _context.Issues.Add(new Domain.Issue(user, "Test Issue 1", "Test Issue Body - Test Issue 1"));
-                _context.Issues.Add(new Domain.Issue(user, "Test Issue 2", "Test Issue Body - Test Issue 2"));
-                _context.Issues.Add(new Domain.Issue(user, "Test Issue 3", "Test Issue Body - Test Issue 3"));
+                _context.Issues.Add(new Domain.Issue(user, "Test Issue 1", "Test Issue Body - Test Issue 1", user, Domain.IssueType.Bug));
+                _context.Issues.Add(new Domain.Issue(user, "Test Issue 2", "Test Issue Body - Test Issue 2", user, Domain.IssueType.Enhancement));
+                _context.Issues.Add(new Domain.Issue(user, "Test Issue 3", "Test Issue Body - Test Issue 3", user, Domain.IssueType.Other));
 
                 _context.SaveChanges();
             }

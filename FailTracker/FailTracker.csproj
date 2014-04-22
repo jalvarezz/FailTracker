@@ -191,7 +191,14 @@
     <Compile Include="Infrastructure\Tasks\IRunOnError.cs" />
     <Compile Include="Infrastructure\Tasks\TaskRegistry.cs" />
     <Compile Include="Infrastructure\TransactionPerRequest.cs" />
+    <Compile Include="Migrations\201404190057464_Update2.cs" />
+    <Compile Include="Migrations\201404190057464_Update2.Designer.cs">
+      <DependentUpon>201404190057464_Update2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IssueSummaryViewModel.cs" />
+    <Compile Include="Models\AssignmentStatsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -245,11 +252,14 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Issue\Create.cshtml" />
     <Content Include="Views\Issue\Delete.cshtml" />
     <Content Include="Views\Issue\Details.cshtml" />
     <Content Include="Views\Issue\Edit.cshtml" />
     <Content Include="Views\Issue\Index.cshtml" />
+    <Content Include="Views\Issue\CreatedByYouWidget.cshtml" />
+    <Content Include="Views\Issue\YourIssuesWidget.cshtml" />
+    <Content Include="Views\Issue\AssignmentStatsWidget.cshtml" />
+    <Content Include="Views\Issue\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -261,7 +271,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201404190057464_Update2.resx">
+      <DependentUpon>201404190057464_Update2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
