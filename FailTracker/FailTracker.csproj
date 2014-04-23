@@ -197,6 +197,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateIssueForm.cs" />
+    <Compile Include="Models\EditIssueForm.cs" />
+    <Compile Include="Models\IssueDetailsViewModel.cs" />
     <Compile Include="Models\IssueSummaryViewModel.cs" />
     <Compile Include="Models\AssignmentStatsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

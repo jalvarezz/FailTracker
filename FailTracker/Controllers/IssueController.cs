@@ -57,7 +57,11 @@ namespace FailTracker.Controllers
         // GET: /Issue/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new CreateIssueForm
+            {
+                AvailableUsers = GetAvailableUsers(),
+                AvailableIssueTypes = GetAvailableIssueTypes()
+            });
         }
 
         // POST: /Issue/Create
@@ -65,11 +69,18 @@ namespace FailTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken, Log("Created issue")]
-        public ActionResult Create([Bind(Include="Id,Subject,Body")] Issue issue)
+        public ActionResult Create([Bind(Include = "Subject,Body,IssueType,AssignedToUserID")] CreateIssueForm issue)
         {
             if (ModelState.IsValid)
             {
-                _context.Issues.Add(new Issue(_currentUser.User, issue.Subject, issue.Body, issue.AssignedTo, issue.IssueType));
+                var assignedUser = _context.Users.FirstOrDefault(r => r.Id == issue.AssignedToUserID);
+                var newIssue = new Issue(_currentUser.User, issue.Subject, issue.Body, assignedUser, issue.IssueType);
+
+                _context.Issues.Add(newIssue);
+
+                if (assignedUser.Assignments == null) assignedUser.Assignments = new List<Issue>();
+
+                assignedUser.Assignments.Add(newIssue);
 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -95,7 +106,18 @@ namespace FailTracker.Controllers
             {
                 return HttpNotFound();
             }
-            return View(issue);
+
+            return View(new EditIssueForm
+            {
+                IssueID = issue.IssueID,
+                Subject = issue.Subject,
+                AssignedToUserID = issue.AssignedTo.Id,
+                AvailableUsers = GetAvailableUsers(),
+                Creator = issue.Creator.UserName,
+                IssueType = issue.IssueType,
+                AvailableIssueTypes = GetAvailableIssueTypes(),
+                Body = issue.Body
+            });
         }
 
         // POST: /Issue/Edit/5
@@ -143,6 +165,22 @@ namespace FailTracker.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        private IEnumerable<IssueType> GetAvailableIssueTypes()
+        {
+            return new List<IssueType>() { 
+                IssueType.Bug,
+                IssueType.Enhancement,
+                IssueType.Support,
+                IssueType.Other
+            };
+        }
+
+        private IEnumerable<ApplicationUser> GetAvailableUsers()
+        {
+            return _context.Users.ToList();
+        }
+
 
         [ChildActionOnly]
         public ActionResult AssignmentStatsWidget()

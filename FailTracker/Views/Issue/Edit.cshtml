@@ -1,4 +1,4 @@
-﻿@model FailTracker.Domain.Issue
+﻿@model FailTracker.Models.EditIssueForm
 
 @{
     ViewBag.Title = "Edit";
@@ -7,22 +7,44 @@
 
 <h2>Edit</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Issue</h4>
+        <h4>Edit Issue</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.IssueID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Creator, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Label(Model.Subject)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Subject, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Subject)
                 @Html.ValidationMessageFor(model => model.Subject)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IssueType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IssueType, new SelectList(Model.AvailableIssueTypes))
+                @Html.ValidationMessageFor(model => model.IssueType)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignedToUserID, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.AssignedToUserID, new SelectList(Model.AvailableUsers, "Id", "UserName"))
+                @Html.ValidationMessageFor(model => model.AssignedToUserID)
             </div>
         </div>
 
