@@ -189,7 +189,7 @@ namespace FailTracker.Controllers
         [ChildActionOnly]
         public ActionResult CreatedByYouWidget()
         {
-            var models = _context.Issues.Where(r => r.Creator.Id == _currentUser.User.Id).Project().To<IssueSummaryViewModel>();
+            var models = _context.Issues.Include(r => r.Creator).Include(r => r.AssignedTo).Where(r => r.Creator.Id == _currentUser.User.Id).Project().To<IssueSummaryViewModel>();
 
             return PartialView(models.ToArray());
         }
@@ -197,7 +197,7 @@ namespace FailTracker.Controllers
         [ChildActionOnly]
         public ActionResult YourIssuesWidget()
         {
-            var models = _context.Issues.Where(r => r.AssignedTo.Id == _currentUser.User.Id).Project().To<IssueSummaryViewModel>();
+            var models = _context.Issues.Include(r => r.Creator).Include(r => r.AssignedTo).Where(r => r.AssignedTo.Id == _currentUser.User.Id).Project().To<IssueSummaryViewModel>();
 
             return PartialView(models.ToArray());
         }

@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FailTracker.Infrastructure.Mapping;
 
 namespace FailTracker.Models
 {
-    public class IssueDetailsViewModel
+    public class IssueDetailsViewModel : IMapFrom<Domain.Issue>
     {
         public int IssueID { get; set; }
         public string Subject { get; set; }

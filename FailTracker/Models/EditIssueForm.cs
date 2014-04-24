@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel;
+using FailTracker.Infrastructure.Mapping;
 
 namespace FailTracker.Models
 {
-    public class EditIssueForm
+    public class EditIssueForm : IMapFrom<Domain.Issue>
     {
         public int IssueID { get; set; }
 
