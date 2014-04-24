@@ -12,6 +12,7 @@ using FailTracker.Domain;
 using FailTracker.Filters;
 using FailTracker.Infrastructure;
 using FailTracker.Models;
+using AutoMapper.QueryableExtensions;
 
 namespace FailTracker.Controllers
 {
@@ -43,7 +44,7 @@ namespace FailTracker.Controllers
 
             var issue = _context.Issues
                 .Include(i => i.AssignedTo)
-                .Include(i => i.Creator)
+                .Include(i => i.Creator).Project().To<IssueDetailsViewModel>()
                 .SingleOrDefault(i => i.IssueID == id);
 
             if (issue == null)
@@ -97,27 +98,20 @@ namespace FailTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var issue = _context.Issues
+            var model = _context.Issues
                 .Include(i => i.AssignedTo)
-                .Include(i => i.Creator)
+                .Include(i => i.Creator).Project().To<EditIssueForm>()
                 .SingleOrDefault(i => i.IssueID == id);
 
-            if (issue == null)
+            if (model == null)
             {
                 return HttpNotFound();
             }
 
-            return View(new EditIssueForm
-            {
-                IssueID = issue.IssueID,
-                Subject = issue.Subject,
-                AssignedToUserID = issue.AssignedTo.Id,
-                AvailableUsers = GetAvailableUsers(),
-                Creator = issue.Creator.UserName,
-                IssueType = issue.IssueType,
-                AvailableIssueTypes = GetAvailableIssueTypes(),
-                Body = issue.Body
-            });
+            model.AvailableUsers = GetAvailableUsers();
+            model.AvailableIssueTypes = GetAvailableIssueTypes();
+
+            return View(model);
         }
 
         // POST: /Issue/Edit/5
@@ -125,13 +119,15 @@ namespace FailTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken, Log("Edited issue")]
-        public ActionResult Edit([Bind(Include = "Id,Subject,Body")] Issue issue)
+        public ActionResult Edit([Bind(Include = "IssueID,Subject,Body,IssueType,AssignedToUserID")] EditIssueForm issue)
         {
             if (ModelState.IsValid)
             {
                 Issue issueToEdit = _context.Issues.FirstOrDefault(w => w.IssueID == issue.IssueID);
                 issueToEdit.Subject = issue.Subject;
                 issueToEdit.Body = issue.Body;
+                issueToEdit.AssignedTo = _context.Users.FirstOrDefault(r => r.Id == issue.AssignedToUserID);
+                issueToEdit.IssueType = issue.IssueType;
 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -185,30 +181,15 @@ namespace FailTracker.Controllers
         [ChildActionOnly]
         public ActionResult AssignmentStatsWidget()
         {
-            var stats = _context.Users.Select(u => new AssignmentStatsViewModel{
-                UserName = u.UserName,
-                Enhancements = u.Assignments.Count(i => i.IssueType == IssueType.Enhancement),
-                Bugs = u.Assignments.Count(i => i.IssueType == IssueType.Bug),
-                Support = u.Assignments.Count(i => i.IssueType == IssueType.Support),
-                Other = u.Assignments.Count(i => i.IssueType == IssueType.Other)
-            }).ToArray();
+            var models = _context.Users.Project().To<AssignmentStatsViewModel>();
 
-            return PartialView(stats);
+            return PartialView(models);
         }
 
         [ChildActionOnly]
         public ActionResult CreatedByYouWidget()
         {
-            var models = from i in _context.Issues
-                         where i.Creator.Id == _currentUser.User.Id
-                         select new IssueSummaryViewModel
-                         {
-                             IssueID = i.IssueID,
-                             Subject = i.Subject,
-                             Type = i.IssueType,
-                             CreatedAt = i.CreatedAt,
-                             Creator = i.Creator.UserName
-                         };
+            var models = _context.Issues.Where(r => r.Creator.Id == _currentUser.User.Id).Project().To<IssueSummaryViewModel>();
 
             return PartialView(models.ToArray());
         }
@@ -216,16 +197,7 @@ namespace FailTracker.Controllers
         [ChildActionOnly]
         public ActionResult YourIssuesWidget()
         {
-            var models = from i in _context.Issues
-                         where i.AssignedTo.Id == _currentUser.User.Id
-                         select new IssueSummaryViewModel
-                         {
-                             IssueID = i.IssueID,
-                             Subject = i.Subject,
-                             Type = i.IssueType,
-                             CreatedAt = i.CreatedAt,
-                             Creator = i.Creator.UserName
-                         };
+            var models = _context.Issues.Where(r => r.AssignedTo.Id == _currentUser.User.Id).Project().To<IssueSummaryViewModel>();
 
             return PartialView(models.ToArray());
         }

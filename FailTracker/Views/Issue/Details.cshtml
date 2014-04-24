@@ -1,4 +1,4 @@
-﻿@model FailTracker.Domain.Issue
+﻿@model FailTracker.Models.IssueDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -38,6 +38,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IssueID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -12,6 +12,7 @@ namespace FailTracker.Models
         public string Subject { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public string Creator { get; set; }
+        public string AssignedTo { get; set; }
         public IssueType Type { get; set; }
 
         public IssueSummaryViewModel() { }
