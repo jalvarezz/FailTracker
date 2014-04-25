@@ -13,6 +13,8 @@ using FailTracker.Filters;
 using FailTracker.Infrastructure;
 using FailTracker.Models;
 using AutoMapper.QueryableExtensions;
+using Microsoft.Web.Mvc;
+using FailTracker.Infrastructure.Alerts;
 
 namespace FailTracker.Controllers
 {
@@ -70,12 +72,12 @@ namespace FailTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken, Log("Created issue")]
-        public ActionResult Create([Bind(Include = "Subject,Body,IssueType,AssignedToUserID")] CreateIssueForm issue)
+        public ActionResult Create([Bind(Include = "Subject,Body,IssueType,AssignedToUserID")] CreateIssueForm model)
         {
             if (ModelState.IsValid)
             {
-                var assignedUser = _context.Users.FirstOrDefault(r => r.Id == issue.AssignedToUserID);
-                var newIssue = new Issue(_currentUser.User, issue.Subject, issue.Body, assignedUser, issue.IssueType);
+                var assignedUser = _context.Users.FirstOrDefault(r => r.Id == model.AssignedToUserID);
+                var newIssue = new Issue(_currentUser.User, model.Subject, model.Body, assignedUser, model.IssueType);
 
                 _context.Issues.Add(newIssue);
 
@@ -84,10 +86,16 @@ namespace FailTracker.Controllers
                 assignedUser.Assignments.Add(newIssue);
 
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return this.RedirectToAction<HomeController>(x => x.Index()).WithSuccess("Issue Created!");
+            }
+            else
+            {
+                model.AvailableUsers = GetAvailableUsers();
+                model.AvailableIssueTypes = GetAvailableIssueTypes();
             }
 
-            return View(issue);
+            return View(model);
         }
 
         // GET: /Issue/Edit/5
@@ -105,7 +113,8 @@ namespace FailTracker.Controllers
 
             if (model == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                return this.RedirectToAction<HomeController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
             }
 
             model.AvailableUsers = GetAvailableUsers();
@@ -119,18 +128,19 @@ namespace FailTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken, Log("Edited issue")]
-        public ActionResult Edit([Bind(Include = "IssueID,Subject,Body,IssueType,AssignedToUserID")] EditIssueForm issue)
+        public ActionResult Edit([Bind(Include = "IssueID,Subject,Body,IssueType,AssignedToId")] EditIssueForm issue)
         {
             if (ModelState.IsValid)
             {
                 Issue issueToEdit = _context.Issues.FirstOrDefault(w => w.IssueID == issue.IssueID);
                 issueToEdit.Subject = issue.Subject;
                 issueToEdit.Body = issue.Body;
-                issueToEdit.AssignedTo = _context.Users.FirstOrDefault(r => r.Id == issue.AssignedToUserID);
+                issueToEdit.AssignedTo = _context.Users.FirstOrDefault(r => r.Id == issue.AssignedToId);
                 issueToEdit.IssueType = issue.IssueType;
 
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return this.RedirectToAction<HomeController>(x => x.Index()).WithSuccess("Changed saved!");
             }
             return View(issue);
         }
@@ -145,7 +155,8 @@ namespace FailTracker.Controllers
             Issue issue = _context.Issues.Find(id);
             if (issue == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                return this.RedirectToAction<HomeController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
             }
 
             return View(issue);
@@ -159,7 +170,8 @@ namespace FailTracker.Controllers
             Issue issue = _context.Issues.Find(id);
             _context.Issues.Remove(issue);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return this.RedirectToAction<HomeController>(x => x.Index()).WithSuccess("Changed saved!");
         }
 
         private IEnumerable<IssueType> GetAvailableIssueTypes()

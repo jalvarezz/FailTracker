@@ -16,14 +16,14 @@ namespace FailTracker.Models
         public string Body { get; set; }
 
         [DisplayName("Assigned To")]
-        public string AssignedToUserID { get; set; }
+        public string AssignedToId { get; set; }
         public IEnumerable<ApplicationUser> AvailableUsers { get; set; }
 
         [DisplayName("Issue Type")]
         public IssueType IssueType { get; set; }
         public IEnumerable<IssueType> AvailableIssueTypes { get; set; }
 
-        public string Creator { get; set; }
+        public string CreatorUserName { get; set; }
 
         public EditIssueForm() { }
     }

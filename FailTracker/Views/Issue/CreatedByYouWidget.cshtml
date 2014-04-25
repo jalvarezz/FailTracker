@@ -13,10 +13,9 @@
             @Html.DisplayNameFor(model => model.CreatedAt)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Creator)
-        </th>
+            @Html.DisplayNameFor(model => model.CreatorUserName)
         <th>
-            @Html.DisplayNameFor(model => model.AssignedTo)
+            @Html.DisplayNameFor(model => model.AssignedToUserName)
         </th>
         <th></th>
     </tr>
@@ -33,10 +32,10 @@
             @Html.DisplayFor(modelItem => item.CreatedAt)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Creator)
+            @Html.DisplayFor(modelItem => item.CreatorUserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AssignedTo)
+            @Html.DisplayFor(modelItem => item.AssignedToUserName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.IssueID }) |

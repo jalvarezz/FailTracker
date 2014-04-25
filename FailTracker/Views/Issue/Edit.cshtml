@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.IssueID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Creator, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CreatorUserName, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.Label(Model.Subject)
             </div>
@@ -41,10 +41,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AssignedToUserID, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AssignedToId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.AssignedToUserID, new SelectList(Model.AvailableUsers, "Id", "UserName"))
-                @Html.ValidationMessageFor(model => model.AssignedToUserID)
+                @Html.DropDownListFor(model => model.AssignedToId, new SelectList(Model.AvailableUsers, "Id", "UserName"))
+                @Html.ValidationMessageFor(model => model.AssignedToId)
             </div>
         </div>
 
