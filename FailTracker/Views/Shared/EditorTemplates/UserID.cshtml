@@ -1,0 +1,16 @@
+﻿@using FailTracker.Data
+@using FailTracker.Infrastructure
+@using StructureMap
+@model string
+
+@{
+    var dbContext = Context.GetContainer().GetInstance<ApplicationDbContext>();
+    
+    var availableUsers = dbContext.Users.Select(u => new SelectListItem
+    {
+        Text = u.UserName,
+        Value = u.Id
+    }).ToArray();
+}
+
+@Html.DropDownList("Value", availableUsers, new { @class = "form-control" })

@@ -195,6 +195,7 @@
     <Compile Include="Infrastructure\ControllerRegistry.cs" />
     <Compile Include="Infrastructure\CurrentUser.cs" />
     <Compile Include="Infrastructure\FailTrackerController.cs" />
+    <Compile Include="Infrastructure\HttpContextBase.cs" />
     <Compile Include="Infrastructure\ICurrentUser.cs" />
     <Compile Include="Infrastructure\Mapping\IHaveCustomMappings.cs" />
     <Compile Include="Infrastructure\Mapping\IMapFrom.cs" />
@@ -289,6 +290,8 @@
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\IssueType.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UserID.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ReadOnly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

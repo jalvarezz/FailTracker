@@ -11,16 +11,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FailTracker.Models
 {
-    public class CreateIssueForm : IMapFrom<Domain.Issue>, IHaveUserSelectList
+    public class CreateIssueForm : IMapFrom<Domain.Issue>
     {
         public string Subject { get; set; }
 
         [Required, DataType(DataType.MultilineText)]
         public string Body { get; set; }
 
-        [DisplayName("Assigned To")]
+        [DisplayName("Assigned To"), DataType("UserID")]
         public string AssignedToUserID { get; set; }
-        public SelectListItem[] AvailableUsers { get; set; }
 
         [DisplayName("Issue Type")]
         public IssueType IssueType { get; set; }

@@ -3,10 +3,11 @@
 @{
     var options = Enum.GetValues(typeof(FailTracker.Domain.IssueType))
                   .Cast<FailTracker.Domain.IssueType>()
-                  .Select(t => new SelectListItem{
+                  .Select(t => new SelectListItem
+                  {
                       Text = t.ToString(),
                       Value = t.ToString()
-                  }).ToArray()
+                  }).ToArray();
 }
 
-@Html.DropDownList("", options, new { @class = "form-control" })
+@Html.DropDownList("Value", options, new { @class = "form-control" })
