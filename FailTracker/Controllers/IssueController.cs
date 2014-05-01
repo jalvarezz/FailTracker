@@ -68,11 +68,11 @@ namespace FailTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken, Log("Created issue")]
-        public ActionResult Create([Bind(Include = "Subject,Body,IssueType,AssignedToUserID")] CreateIssueForm model)
+        public ActionResult Create(CreateIssueForm model)
         {
             if (ModelState.IsValid)
             {
-                var assignedUser = _context.Users.FirstOrDefault(r => r.Id == model.AssignedToUserID);
+                var assignedUser = _context.Users.Single(r => r.Id == model.AssignedToId);
                 var newIssue = new Issue(_currentUser.User, model.Subject, model.Body, assignedUser, model.IssueType);
 
                 _context.Issues.Add(newIssue);
@@ -116,15 +116,17 @@ namespace FailTracker.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken, Log("Edited issue")]
-        public ActionResult Edit([Bind(Include = "IssueID,Subject,Body,IssueType,AssignedToId")] EditIssueForm issue)
+        public ActionResult Edit(EditIssueForm issue)
         {
             if (ModelState.IsValid)
             {
-                Issue issueToEdit = _context.Issues.FirstOrDefault(w => w.IssueID == issue.IssueID);
+                Issue issueToEdit = _context.Issues.Single(w => w.IssueID == issue.IssueID);
                 issueToEdit.Subject = issue.Subject;
                 issueToEdit.Body = issue.Body;
-                issueToEdit.AssignedTo = _context.Users.FirstOrDefault(r => r.Id == issue.AssignedToId);
+                issueToEdit.AssignedTo = _context.Users.Single(r => r.Id == issue.AssignedToId);
                 issueToEdit.IssueType = issue.IssueType;
+
+                _context.Issues.Attach(issueToEdit);
 
                 _context.SaveChanges();
                 //return RedirectToAction("Index");

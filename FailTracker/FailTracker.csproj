@@ -210,9 +210,9 @@
     <Compile Include="Infrastructure\Tasks\IRunOnError.cs" />
     <Compile Include="Infrastructure\Tasks\TaskRegistry.cs" />
     <Compile Include="Infrastructure\TransactionPerRequest.cs" />
-    <Compile Include="Migrations\201404190057464_Update2.cs" />
-    <Compile Include="Migrations\201404190057464_Update2.Designer.cs">
-      <DependentUpon>201404190057464_Update2.cs</DependentUpon>
+    <Compile Include="Migrations\201405011323251_UpdateDB.cs" />
+    <Compile Include="Migrations\201405011323251_UpdateDB.Designer.cs">
+      <DependentUpon>201405011323251_UpdateDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -304,11 +304,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201404190057464_Update2.resx">
-      <DependentUpon>201404190057464_Update2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201405011323251_UpdateDB.resx">
+      <DependentUpon>201405011323251_UpdateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

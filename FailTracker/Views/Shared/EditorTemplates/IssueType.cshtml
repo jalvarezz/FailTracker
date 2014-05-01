@@ -6,8 +6,9 @@
                   .Select(t => new SelectListItem
                   {
                       Text = t.ToString(),
-                      Value = t.ToString()
+                      Value = t.ToString(),
+                      Selected = t == Model
                   }).ToArray();
 }
 
-@Html.DropDownList("Value", options, new { @class = "form-control" })
+@Html.DropDownList("", options, new { @class = "form-control" })
