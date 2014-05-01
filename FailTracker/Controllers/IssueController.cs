@@ -18,7 +18,7 @@ using FailTracker.Infrastructure.Alerts;
 
 namespace FailTracker.Controllers
 {
-    public class IssueController : Controller
+    public class IssueController : FailTrackerController
     {
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUser _currentUser;
@@ -60,11 +60,7 @@ namespace FailTracker.Controllers
         // GET: /Issue/Create
         public ActionResult Create()
         {
-            return View(new CreateIssueForm
-            {
-                AvailableUsers = GetAvailableUsers(),
-                AvailableIssueTypes = GetAvailableIssueTypes()
-            });
+            return View(new CreateIssueForm());
         }
 
         // POST: /Issue/Create
@@ -87,12 +83,7 @@ namespace FailTracker.Controllers
 
                 _context.SaveChanges();
                 //return RedirectToAction("Index");
-                return this.RedirectToAction<HomeController>(x => x.Index()).WithSuccess("Issue Created!");
-            }
-            else
-            {
-                model.AvailableUsers = GetAvailableUsers();
-                model.AvailableIssueTypes = GetAvailableIssueTypes();
+                return RedirectToAction<IssueController>(x => x.Index()).WithSuccess("Issue Created!");
             }
 
             return View(model);
@@ -114,11 +105,8 @@ namespace FailTracker.Controllers
             if (model == null)
             {
                 //return HttpNotFound();
-                return this.RedirectToAction<HomeController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
+                return RedirectToAction<IssueController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
             }
-
-            model.AvailableUsers = GetAvailableUsers();
-            model.AvailableIssueTypes = GetAvailableIssueTypes();
 
             return View(model);
         }
@@ -140,7 +128,7 @@ namespace FailTracker.Controllers
 
                 _context.SaveChanges();
                 //return RedirectToAction("Index");
-                return this.RedirectToAction<HomeController>(x => x.Index()).WithSuccess("Changed saved!");
+                return RedirectToAction<IssueController>(x => x.Index()).WithSuccess("Changed saved!");
             }
             return View(issue);
         }
@@ -156,7 +144,7 @@ namespace FailTracker.Controllers
             if (issue == null)
             {
                 //return HttpNotFound();
-                return this.RedirectToAction<HomeController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
+                return RedirectToAction<IssueController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
             }
 
             return View(issue);
@@ -170,25 +158,8 @@ namespace FailTracker.Controllers
             Issue issue = _context.Issues.Find(id);
             _context.Issues.Remove(issue);
             _context.SaveChanges();
-            //return RedirectToAction("Index");
-            return this.RedirectToAction<HomeController>(x => x.Index()).WithSuccess("Changed saved!");
+            return RedirectToAction<IssueController>(x => x.Index()).WithSuccess("Changed saved!");
         }
-
-        private IEnumerable<IssueType> GetAvailableIssueTypes()
-        {
-            return new List<IssueType>() { 
-                IssueType.Bug,
-                IssueType.Enhancement,
-                IssueType.Support,
-                IssueType.Other
-            };
-        }
-
-        private IEnumerable<ApplicationUser> GetAvailableUsers()
-        {
-            return _context.Users.ToList();
-        }
-
 
         [ChildActionOnly]
         public ActionResult AssignmentStatsWidget()

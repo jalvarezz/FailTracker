@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Subject, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Subject)
+                @Html.EditorFor(model => model.Subject, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Subject)
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IssueType, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.IssueType, new SelectList(Model.AvailableIssueTypes))
+                @Html.DropDownListFor(model => model.IssueType, Model.AvailableIssueTypes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IssueType)
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AssignedToId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.AssignedToId, new SelectList(Model.AvailableUsers, "Id", "UserName"))
+                @Html.DropDownListFor(model => model.AssignedToId, Model.AvailableUsers, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AssignedToId)
             </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Body)
+                @Html.TextAreaFor(model => model.Body, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Body)
             </div>
         </div>

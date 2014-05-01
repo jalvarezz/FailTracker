@@ -1,4 +1,5 @@
 ﻿using FailTracker.Data;
+using FailTracker.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Web.Mvc;
 
 namespace FailTracker.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : FailTrackerController
     {
         private readonly ApplicationDbContext _context;
 

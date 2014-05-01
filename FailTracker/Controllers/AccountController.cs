@@ -11,11 +11,12 @@ using Microsoft.Owin.Security;
 using FailTracker.Domain;
 using FailTracker.Data;
 using FailTracker.Models;
+using FailTracker.Infrastructure;
 
 namespace FailTracker.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : FailTrackerController
     {
         private readonly ApplicationDbContext _context;
 
