@@ -10,7 +10,7 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Subject, new { @class = "control-label col-md-2" })
+            @Html.BootstrapLabelFor(model => model.Subject)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Subject)
                 @Html.ValidationMessageFor(model => model.Subject)
@@ -18,7 +18,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IssueType, new { @class = "control-label col-md-2" })
+            @Html.BootstrapLabelFor(model => model.IssueType)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IssueType)
                 @Html.ValidationMessageFor(model => model.IssueType)
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AssignedToId, new { @class = "control-label col-md-2" })
+            @Html.BootstrapLabelFor(model => model.AssignedToId)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AssignedToId)
                 @Html.ValidationMessageFor(model => model.AssignedToId)
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Body, new { @class = "control-label col-md-2" })
+            @Html.BootstrapLabelFor(model => model.Body)
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Body)
                 @Html.ValidationMessageFor(model => model.Body)
