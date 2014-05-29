@@ -9,6 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using StructureMap.TypeRules;
 using FailTracker.Infrastructure.Tasks;
+using FailTracker.Infrastructure.ModelMetadata;
 
 namespace FailTracker
 {
@@ -38,6 +39,7 @@ namespace FailTracker
                 cfg.AddRegistry(new ActionFilterRegistry(containerFactory));
                 cfg.AddRegistry(new MvcRegistry());
                 cfg.AddRegistry(new TaskRegistry());
+                cfg.AddRegistry(new ModelMetadataRegistry());
             });
 
             using (var container = ObjectFactory.Container.GetNestedContainer())

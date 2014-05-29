@@ -15,14 +15,13 @@ namespace FailTracker.Models
     {
         public string Subject { get; set; }
 
-        [Required, DataType(DataType.MultilineText)]
-        public string Body { get; set; }
-
-        [DisplayName("Assigned To"), DataType("UserID")]
+        [DisplayName("Assigned To")]
         public string AssignedToId { get; set; }
 
-        [DisplayName("Issue Type")]
         public IssueType IssueType { get; set; }
+
+        [Required]
+        public string Body { get; set; }
 
         public CreateIssueForm() { }
     }

@@ -13,20 +13,21 @@ namespace FailTracker.Models
 {
     public class EditIssueForm : IMapFrom<Domain.Issue>
     {
+        [HiddenInput]
         public int IssueID { get; set; }
+
+        [ReadOnly(true)]
+        public string CreatorUserName { get; set; }
 
         public string Subject { get; set; }
 
-        [Required, DataType(DataType.MultilineText)]
-        public string Body { get; set; }
-
-        [DisplayName("Assigned To"), DataType("UserID")]
-        public string AssignedToId { get; set; }
-
-        [DisplayName("Issue Type")]
         public IssueType IssueType { get; set; }
 
-        public string CreatorUserName { get; set; }
+        [DisplayName("Assigned To")]
+        public string AssignedToId { get; set; }
+
+        [Required]
+        public string Body { get; set; }
 
         public EditIssueForm() { }
     }
