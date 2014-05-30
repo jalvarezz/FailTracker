@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="failtrackerApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +22,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (HttpContext.Current.User.Identity.IsAuthenticated) {
-                    <li>@Html.ActionLink("Issues", "Index", "Issue")</li>
+                    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Issues", "Index", "Issue")</li>
                     }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
@@ -33,7 +34,7 @@
         </div>
     </div>
     <div class="container body-content">
-        @Html.Partial("_Alerts")
+        <div class="container alert-container"></div>
         @RenderBody()
         <hr />
         <footer>
@@ -43,13 +44,9 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/app")
+    @Html.Partial("_Alerts")
     @RenderSection("scripts", required: false)
-    <script type="text/javascript">
-        window.setTimeout(function () {
-            $(".alert-dismissable").fadeTo(500, 0).slideUp(500, function () {
-                $(this).remove();
-            });
-        }, 4000);
-    </script>
 </body>
 </html>

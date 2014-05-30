@@ -115,24 +115,31 @@ namespace FailTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken, Log("Edited issue")]
+        [ValidateAntiForgeryToken, Log("Saving changes")]
         public ActionResult Edit(EditIssueForm issue)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Issue issueToEdit = _context.Issues.Single(w => w.IssueID == issue.IssueID);
-                issueToEdit.Subject = issue.Subject;
-                issueToEdit.Body = issue.Body;
-                issueToEdit.AssignedTo = _context.Users.Single(r => r.Id == issue.AssignedToId);
-                issueToEdit.IssueType = issue.IssueType;
-
-                _context.Issues.Attach(issueToEdit);
-
-                _context.SaveChanges();
-                //return RedirectToAction("Index");
-                return RedirectToAction<IssueController>(x => x.Index()).WithSuccess("Changed saved!");
+                return JsonValidationError();
             }
-            return View(issue);
+
+            Issue issueToEdit = _context.Issues.Single(w => w.IssueID == issue.IssueID);
+
+            if (issueToEdit == null)
+            {
+                return JsonError("Cannot find the issue specified.");
+            }
+
+            issueToEdit.Subject = issue.Subject;
+            issueToEdit.Body = issue.Body;
+            issueToEdit.AssignedTo = _context.Users.Single(r => r.Id == issue.AssignedToId);
+            issueToEdit.IssueType = issue.IssueType;
+
+            _context.Issues.Attach(issueToEdit);
+
+            _context.SaveChanges();
+
+            return JsonSuccess(issue);
         }
 
         // GET: /Issue/Delete/5

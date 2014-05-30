@@ -5,39 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Issue</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
+<div ng-controller="editIssueController" ng-init='init(@Html.Json(Model))'>
+    <div ng-cloack ng-hide="editing">
+        <h2>Details</h2>
+        <h2>
+            <small class="pull-right"> Received {{issue.createdAt}} from {{creatorUserName}}</small>
+        </h2>
+        <h4>Currently assigned to {{issue.assignedToUserName}}</h4>
+        <div class="well">
+            <p class="lead">
+                {{issue.body}}
+            </p>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" ng-click="edit()">Edit</button>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
+    <div class="form-horizontal" ng-cloak ng-hide="!editing">
+        <h2>Edit Issue</h2>
+        @Html.AngularEditorForModel("issue")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-    </dl>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary" ng-click="save()">Save Changes</button>
+                <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IssueID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -4,41 +4,45 @@
     var controllerId = 'editIssueController';
 
     angular.module('failtrackerApp').controller(controllerId,
-        ['$scope', '$http', editIssueController]);
+        ['$scope', '$http', 'alerts', editIssueController]);
 
-    function editIssueController($scope, $http) {
+    function editIssueController($scope, $http, alerts) {
         $scope.editing = false;
         $scope.init = init;
         $scope.save = save;
         $scope.cancel = cancel;
         $scope.edit = edit;
 
-        $scope.init(issue){
+        function init(issue){
             $scope.originalIssue = angular.extend({}, issue);
             $scope.issue = issue;
         }
 
-        $scope.edit(){
+        function edit(){
             $scope.editing = true;
         }
 
-        $scope.save(){
+        function save(){
             $http.post("/Issue/Edit", $scope.issue)
                 .success(function(data){ 
-                    if(data.success !== true){
-                        alert("There was a problem saving to the server: " + data.errorMessage);
-                        return;
-                    }
-
                     $scope.originalIssue = angular.extend({}, $scope.issue);
 
                     $scope.editing = false;
+
+                    alerts.success("Your changes have been saved!");
                 })
-                .error(function(){ 
-                    alert("There was a problem saving the issue. Please try again.");
+                .error(function (data) {
+                    if (data.errorMessage) {
+                        alerts.error("There was a problem saving the issue: \n" + data.errorMessage);
+                    } else {
+                        alerts.error("There was a problem saving the issue. Please try again.");
+                    }
                 });
         }
 
-        $scope.cancel() { }
+        function cancel() {
+            $scope.issue = null;
+            $scope.editing = false;
+        }
     }
-});
+})();

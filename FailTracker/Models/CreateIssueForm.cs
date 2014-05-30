@@ -18,10 +18,12 @@ namespace FailTracker.Models
         [DisplayName("Assigned To")]
         public string AssignedToId { get; set; }
 
-        public IssueType IssueType { get; set; }
-
         [Required]
         public string Body { get; set; }
+
+        public IssueType IssueType { get; set; }
+
+        
 
         public CreateIssueForm() { }
     }

@@ -23,6 +23,17 @@ namespace FailTracker
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                      "~/Scripts/angular.js",
+                      "~/Scripts/underscore.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/app")
+                    .Include("~/Scripts/app/failtrackerApp.js")
+                    .IncludeDirectory("~/Scripts/app/utilities", "*.js")
+                    .IncludeDirectory("~/Scripts/app/controllers", "*.js")
+                    .IncludeDirectory("~/Scripts/app/services", "*.js")
+                );
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

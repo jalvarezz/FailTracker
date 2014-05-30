@@ -188,7 +188,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AngularTemplateHelper.cs" />
     <Compile Include="Helpers\BootstrapHelpers.cs" />
+    <Compile Include="Helpers\JavaScriptHelper.cs" />
     <Compile Include="Infrastructure\ActionFilterRegistry.cs" />
     <Compile Include="Infrastructure\Alerts\Alert.cs" />
     <Compile Include="Infrastructure\Alerts\AlertDecoratorResult.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Infrastructure\ICurrentUser.cs" />
     <Compile Include="Infrastructure\Mapping\IHaveCustomMappings.cs" />
     <Compile Include="Infrastructure\Mapping\IMapFrom.cs" />
+    <Compile Include="Infrastructure\ModelMetadata\Attributes\Render.cs" />
     <Compile Include="Infrastructure\ModelMetadata\ExtensibleModelMetadataProvider.cs" />
     <Compile Include="Infrastructure\ModelMetadata\Filters\LabelConventionFilter.cs" />
     <Compile Include="Infrastructure\ModelMetadata\Filters\ReadOnlyTemplateSelectorFilter.cs" />
@@ -220,6 +223,10 @@
     <Compile Include="Infrastructure\Tasks\IRunOnError.cs" />
     <Compile Include="Infrastructure\Tasks\TaskRegistry.cs" />
     <Compile Include="Infrastructure\TransactionPerRequest.cs" />
+    <Compile Include="Migrations\201405291451317_WorkUpdate.cs" />
+    <Compile Include="Migrations\201405291451317_WorkUpdate.Designer.cs">
+      <DependentUpon>201405291451317_WorkUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateIssueForm.cs" />
@@ -249,6 +256,9 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\controllers\editIssueController.js" />
     <Content Include="Scripts\app\failtrackerApp.js" />
+    <Content Include="Scripts\app\services\alerts.js" />
+    <Content Include="Scripts\app\services\exceptionOverride.js" />
+    <Content Include="Scripts\app\utilities\bootstrapAlerts.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -305,6 +315,7 @@
     <Content Include="Views\Shared\EditorTemplates\UserID.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ReadOnly.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Object.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Angular\Object.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -315,6 +326,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201405291451317_WorkUpdate.resx">
+      <DependentUpon>201405291451317_WorkUpdate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

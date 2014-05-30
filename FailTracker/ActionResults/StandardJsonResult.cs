@@ -2,6 +2,8 @@
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +73,16 @@ namespace FailTracker.ActionResults
                 }
             };
 
-            response.Write(JsonConverter.SerializeObject(Data, settings));
+            response.Write(JsonConvert.SerializeObject(Data, settings));
+        }
+    }
+
+    public class StandardJsonResult<T> : StandardJsonResult
+    {
+        public new T Data
+        {
+            get { return (T)base.Data; }
+            set { base.Data = value; }
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿@model FailTracker.Models.EditIssueForm
 
+
 @using (Html.BeginForm())
-{
+    {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Edit Issue</h4>
         <hr />
@@ -16,7 +17,7 @@
             </div>
         </div>
     </div>
-}
+    }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
