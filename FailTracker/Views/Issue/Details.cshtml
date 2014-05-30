@@ -8,7 +8,7 @@
 
 
 <div ng-controller="editIssueController" ng-init='init(@Html.Json(Model))'>
-    <div ng-cloack ng-hide="editing">
+    <div ng-cloak ng-hide="editing">
         <h2>Details</h2>
         <h2>
             <small class="pull-right"> Received {{issue.createdAt}} from {{creatorUserName}}</small>
@@ -25,8 +25,7 @@
         </div>
     </div>
 
-
-    <div class="form-horizontal" ng-cloak ng-hide="!editing">
+    <div class="form-horizontal" ng-cloak ng-hide="!editing" ng-form="EditForm">
         <h2>Edit Issue</h2>
         @Html.AngularEditorForModel("issue")
 
@@ -38,3 +37,12 @@
         </div>
     </div>
 </div>
+
+@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;
+    }
+}

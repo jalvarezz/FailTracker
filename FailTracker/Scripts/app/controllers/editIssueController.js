@@ -23,7 +23,10 @@
         }
 
         function save(){
-            $http.post("/Issue/Edit", $scope.issue)
+            $http({ method: 'POST', 
+                    url: '/Issue/Edit/', 
+                    data: $scope.issue, 
+                    headers: { '__RequestVerificationToken':  $scope.antiForgeryToken }})
                 .success(function(data){ 
                     $scope.originalIssue = angular.extend({}, $scope.issue);
 

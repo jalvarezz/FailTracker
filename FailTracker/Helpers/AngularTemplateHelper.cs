@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace FailTracker.Helpers
 {
@@ -33,6 +36,19 @@ namespace FailTracker.Helpers
             }
 
             return "Angular/" + templateName;
+        }
+
+        public static IHtmlString AngularAntiForgeryToken(this HtmlHelper helper)
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+
+            return helper.Hidden("__RequestVerificationToken", string.Empty, new
+            {
+                @id = "__RequestVerificationToken",
+                data_ng_model = "antiForgeryToken",
+                data_ng_init = "antiForgeryToken='" + cookieToken + ":" + formToken + "'"
+            });
         }
     }
 }

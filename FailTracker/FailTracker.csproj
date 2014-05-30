@@ -182,6 +182,7 @@
     <Compile Include="Domain\ApplicationUser.cs" />
     <Compile Include="Domain\Issue.cs" />
     <Compile Include="Domain\LogAction.cs" />
+    <Compile Include="Filters\CustomAntiForgeryTokenAttribute.cs" />
     <Compile Include="Filters\UserSelectListPopulatorAttribute.cs" />
     <Compile Include="Filters\IssueTypeSelectListPopulatorAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />

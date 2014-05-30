@@ -1,5 +1,10 @@
 ﻿@model dynamic
 
+@if (ViewData.ModelMetadata.Properties.Any(p => p.ShowForEdit))
+{
+    @Html.AngularAntiForgeryToken()
+}
+
 @foreach(var prop in ViewData.ModelMetadata.Properties.Where(p => p.ShowForEdit))
 {
     <div class="form-group">
