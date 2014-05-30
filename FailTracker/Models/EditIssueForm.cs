@@ -24,7 +24,7 @@ namespace FailTracker.Models
         public IssueType IssueType { get; set; }
 
         [DisplayName("Assigned To")]
-        public string AssignedToId { get; set; }
+        public string AssignedToUserName { get; set; }
 
         [Required]
         public string Body { get; set; }

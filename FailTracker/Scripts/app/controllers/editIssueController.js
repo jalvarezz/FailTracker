@@ -9,13 +9,19 @@
     function editIssueController($scope, $http, alerts) {
         $scope.editing = false;
         $scope.init = init;
+        $scope.index = index;
         $scope.save = save;
         $scope.cancel = cancel;
         $scope.edit = edit;
+        $scope.deleteitem = deleteitem;
 
         function init(issue){
             $scope.originalIssue = angular.extend({}, issue);
             $scope.issue = issue;
+        }
+
+        function index(url) {
+            window.location = url;
         }
 
         function edit(){
@@ -43,8 +49,29 @@
                 });
         }
 
+        function deleteitem(returnUrl) {
+            if (confirm("Are you sure that you want to edit the issue '" + $scope.issue.subject + "'?")) {
+                $http({
+                    method: 'POST',
+                    url: '/Issue/Delete/',
+                    data: JSON.stringify({ id: $scope.issue.issueID }, null),
+                    headers: { '__RequestVerificationToken': $scope.antiForgeryToken }
+                })
+                    .success(function (data) {
+                        window.location = '/Issue';
+                    })
+                    .error(function (data) {
+                        if (data.errorMessage) {
+                            alerts.error("There was a problem deleting the issue: \n" + data.errorMessage);
+                        } else {
+                            alerts.error("There was a problem deleting the issue. Please try again.");
+                        }
+                    });
+            }
+        }
+
         function cancel() {
-            $scope.issue = null;
+            $scope.issue = $scope.originalIssue;
             $scope.editing = false;
         }
     }

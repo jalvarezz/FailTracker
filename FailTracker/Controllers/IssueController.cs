@@ -115,7 +115,7 @@ namespace FailTracker.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [CustomAntiForgeryToken, Log("Saving changes")]
+        [/*CustomAntiForgeryToken, */Log("Saving changes")]
         public ActionResult Edit(EditIssueForm issue)
         {
             if (!ModelState.IsValid)
@@ -132,14 +132,15 @@ namespace FailTracker.Controllers
 
             issueToEdit.Subject = issue.Subject;
             issueToEdit.Body = issue.Body;
-            issueToEdit.AssignedTo = _context.Users.Single(r => r.Id == issue.AssignedToId);
+            issueToEdit.AssignedTo = _context.Users.Single(r => r.UserName == issue.AssignedToUserName);
             issueToEdit.IssueType = issue.IssueType;
 
-            _context.Issues.Attach(issueToEdit);
+            _context.Entry<Issue>(issueToEdit).State = EntityState.Modified;
 
-            _context.SaveChanges();
-
-            return JsonSuccess(issue);
+            if (_context.SaveChanges() > 0)
+                return JsonSuccess(issue);
+            else
+                return JsonError("Issue could not be saved");
         }
 
         // GET: /Issue/Delete/5
@@ -161,13 +162,16 @@ namespace FailTracker.Controllers
 
         // POST: /Issue/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken, Log("Deleted issue {id}")]
+        [/*ValidateAntiForgeryToken,*/ Log("Deleted issue {id}")]
         public ActionResult DeleteConfirmed(int id)
         {
             Issue issue = _context.Issues.Find(id);
-            _context.Issues.Remove(issue);
-            _context.SaveChanges();
-            return RedirectToAction<IssueController>(x => x.Index()).WithSuccess("Changed saved!");
+            _context.Entry<Issue>(issue).State = EntityState.Deleted;
+
+            if (_context.SaveChanges() > 0)
+                return JsonSuccess(issue);
+            else
+                return JsonError("Issue could not be saved");
         }
 
         [ChildActionOnly]

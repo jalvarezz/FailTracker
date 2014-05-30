@@ -28,7 +28,7 @@ namespace FailTracker.ActionResults
 
         public override void ExecuteResult(ControllerContext context)
         {
-            if (context != null)
+            if (context == null)
             {
                 throw new ArgumentNullException("context");
             }

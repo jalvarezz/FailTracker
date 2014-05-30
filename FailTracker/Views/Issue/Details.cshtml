@@ -21,7 +21,8 @@
         </div>
         <div class="row">
             <button class="btn btn-primary" ng-click="edit()">Edit</button>
-            @Html.ActionLink("Back to List", "Index")
+            <button class="btn btn-default" ng-click="index('@Url.Action("Index", "Issue")')">Back to List</button>
+            <button class="btn btn-danger pull-right" ng-click="deleteitem('@Url.Action("Index", "Issue")')">Delete</button>
         </div>
     </div>
 
@@ -37,12 +38,3 @@
         </div>
     </div>
 </div>
-
-@functions{
-    public string GetAntiForgeryToken()
-    {
-        string cookieToken, formToken;
-        AntiForgery.GetTokens(null, out cookieToken, out formToken);
-        return cookieToken + ":" + formToken;
-    }
-}

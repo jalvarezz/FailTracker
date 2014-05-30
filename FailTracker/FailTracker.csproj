@@ -182,7 +182,6 @@
     <Compile Include="Domain\ApplicationUser.cs" />
     <Compile Include="Domain\Issue.cs" />
     <Compile Include="Domain\LogAction.cs" />
-    <Compile Include="Filters\CustomAntiForgeryTokenAttribute.cs" />
     <Compile Include="Filters\UserSelectListPopulatorAttribute.cs" />
     <Compile Include="Filters\IssueTypeSelectListPopulatorAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />
@@ -317,6 +316,11 @@
     <Content Include="Views\Shared\EditorTemplates\ReadOnly.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Object.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Angular\Object.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Angular\IssueType.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Angular\MultilineText.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Angular\ReadOnly.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Angular\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Angular\UserID.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
