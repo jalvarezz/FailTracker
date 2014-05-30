@@ -20,9 +20,13 @@
             </p>
         </div>
         <div class="row">
-            <button class="btn btn-primary" ng-click="edit()">Edit</button>
-            <button class="btn btn-default" ng-click="index('@Url.Action("Index", "Issue")')">Back to List</button>
-            <button class="btn btn-danger pull-right" ng-click="deleteitem('@Url.Action("Index", "Issue")')">Delete</button>
+            <button class="btn btn-primary col-md-1" ng-click="edit()">Edit</button>
+            <button class="btn btn-default col-md-offset-1 col-md-1" ng-click="index('@Url.Action("Index", "Issue")')">Back to List</button>
+
+            @using (Html.BeginForm("Delete", "Issue", new { id = Model.IssueID }, FormMethod.Post, new { id = "delete-form", @class = "pull-right" }))
+            {
+                <button type="submit" class="btn btn-danger pull-right">Delete Issue</button>
+            }
         </div>
     </div>
 
@@ -38,3 +42,13 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#delete-form").on("submit", function () {
+                return confirm("Are you sure that you want to edit the issue '@Model.Subject'?");
+            });
+        });
+    </script>
+}

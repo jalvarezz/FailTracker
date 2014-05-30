@@ -168,10 +168,16 @@ namespace FailTracker.Controllers
             Issue issue = _context.Issues.Find(id);
             _context.Entry<Issue>(issue).State = EntityState.Deleted;
 
+            if (issue == null)
+            {
+                //return HttpNotFound();
+                return RedirectToAction<IssueController>(x => x.Index()).WithError("Unable to find the issue. Maybe it was deleted?");
+            }
+
             if (_context.SaveChanges() > 0)
-                return JsonSuccess(issue);
+                return RedirectToAction<IssueController>(x => x.Index()).WithSuccess("Issue successfully deleted!");
             else
-                return JsonError("Issue could not be saved");
+                return RedirectToAction<IssueController>(x => x.Details(id)).WithError("Issue could not be saved!");
         }
 
         [ChildActionOnly]

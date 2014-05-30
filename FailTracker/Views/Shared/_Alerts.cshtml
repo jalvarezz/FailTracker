@@ -1,29 +1,21 @@
 ﻿@using FailTracker.Infrastructure.Alerts
-@if (TempData.GetAlerts().Any())
-{
-    <script type="text/javascript">
-        $(function () {
-            @foreach (var alert in TempData.GetAlerts())
-            {
-                <text>
-                window.alerts.showAlert({
-                    message: '@alert.Message.Replace("'", "\\'")',
-                    alertClass: '@alert.AlertClass'
-                });
-                </text>
-            }
-        });
-    </script>
-    
-    <div class="span4 offset4 alert-container">
-        @foreach (var alert in TempData.GetAlerts())
+<div class="container">
+    <div class="row">
+        @if (TempData.GetAlerts().Any())
         {
-            <div class="alert @alert.AlertClass alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                    &times;
-                </button>
-                @alert.Message
-            </div>
+            <script type="text/javascript">
+                $(function () {
+                    @foreach (var alert in TempData.GetAlerts())
+                    {
+                        <text>
+                            window.alerts.showAlert({
+                                message: '@alert.Message.Replace("'", "\\'")',
+                                alertClass: '@alert.AlertClass'
+                            });
+                            </text>
+                    }
+                });
+            </script>
         }
     </div>
-}
+</div>

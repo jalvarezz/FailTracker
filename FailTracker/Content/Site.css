@@ -43,8 +43,5 @@ input[type="checkbox"].input-validation-error {
 
 .alert-container{
     position:fixed;
-    left:0;
-    right:0;
-    padding-left: 3em;
-    padding-right: 3em;
+    margin: 0 auto;
 }
